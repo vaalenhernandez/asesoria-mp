@@ -180,12 +180,23 @@
   .wordmark span em{font-weight:500;font-style:italic;color:var(--cream);}
   .foot-note{text-align:center;color:#b98a7c;font-size:12px;padding-bottom:26px;}
 
+  /* ================= DATES ================= */
+  .date-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px;}
+  .date-card{background:#fff;border:2px solid var(--cream-2);border-radius:20px;padding:24px;text-align:center;position:relative;}
+  .date-card .mes{font-family:'Fraunces',serif;font-weight:600;font-size:21px;color:var(--wine);margin-bottom:2px;}
+  .date-card .dia{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+  .date-card .estado{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:30px;}
+  .estado.libre{background:#dcefd8;color:#3f6b34;}
+  .estado.pocos{background:var(--yellow);color:#6b5a10;}
+  .estado.lleno{background:var(--cream-2);color:var(--muted);}
+  .date-note{text-align:center;font-size:13.5px;color:var(--muted);font-style:italic;margin-top:22px;}
+
   /* ================= RESPONSIVE ================= */
   @media(max-width:820px){
     .panel{padding:30px 24px;}
     .hero{grid-template-columns:1fr;padding-top:20px;padding-bottom:24px;gap:30px;}
     .arrow{display:none;}
-    .pain-grid,.inc-grid,.pay-grid{grid-template-columns:1fr;}
+    .pain-grid,.inc-grid,.pay-grid,.date-grid{grid-template-columns:1fr;}
     .transform{grid-template-columns:1fr;}
     .tarrow{transform:rotate(90deg);}
     .steps{grid-template-columns:1fr;}
@@ -209,6 +220,7 @@
       <div class="navlinks">
         <a href="#incluye">Qué incluye 🎬</a>
         <a href="#proceso">Cómo trabajo ✨</a>
+        <a href="#fechas">Fechas 🗓️</a>
         <a href="#pago">Inversión 🤎</a>
       </div>
       <a class="btn peri" href="#pago">Reservar <span class="arw">→</span></a>
@@ -339,6 +351,40 @@
       <div class="step"><div class="n">01</div><h4>Sesión 1 · Diagnóstico e identidad</h4><p>Llamada inicial para conocer tu marca, tus metas y qué necesitas. Armamos juntas tu identidad y tus pilares de contenido.</p></div>
       <div class="step"><div class="n">02</div><h4>Sesión 2 · Sesión creativa</h4><p>Trabajamos tu contenido y te entrego tu plan de acción listo para ejecutar.</p></div>
       <div class="step"><div class="n">03</div><h4>Acompañamiento</h4><p>Durante 1 mes me escribes por WhatsApp para despejar dudas y ajustar sobre la marcha.</p></div>
+    </div>
+  </div>
+
+  <!-- ===== FECHAS DE INICIO =====
+       👉 PARA ACTUALIZAR: cambia el mes (.mes), la fecha (.dia) y el estado.
+       El estado tiene 3 versiones — usa la clase que corresponda:
+         class="estado libre"  → Cupos disponibles (verde)
+         class="estado pocos"  → Últimos cupos (amarillo)
+         class="estado lleno"  → Agotado (gris)
+       Puedes agregar o quitar tarjetas <div class="date-card">...</div> -->
+  <div class="panel" id="fechas">
+    <span class="kicker">Próximas fechas 🗓️</span>
+    <h2 class="sec">Próximas <em>fechas de inicio</em></h2>
+    <p class="lead">Trabajo con pocos cupos al mes para dedicarle tiempo real a cada marca. Estas son las próximas fechas para empezar:</p>
+    <div class="date-grid">
+      <div class="date-card">
+        <div class="mes">Octubre</div>
+        <div class="dia">Inicio: 6 de octubre</div>
+        <span class="estado libre">Cupos disponibles</span>
+      </div>
+      <div class="date-card">
+        <div class="mes">Noviembre</div>
+        <div class="dia">Inicio: 3 de noviembre</div>
+        <span class="estado pocos">Últimos cupos</span>
+      </div>
+      <div class="date-card">
+        <div class="mes">Diciembre</div>
+        <div class="dia">Inicio: 1 de diciembre</div>
+        <span class="estado libre">Cupos disponibles</span>
+      </div>
+    </div>
+    <p class="date-note">¿Ninguna fecha te sirve? Escríbeme y cuadramos una a tu medida.</p>
+    <div style="text-align:center;margin-top:22px;">
+      <a class="btn wine" href="#pago">Reservar mi fecha <span class="arw">→</span></a>
     </div>
   </div>
 
