@@ -88,9 +88,17 @@
   .badge{position:absolute;z-index:4;bottom:8px;left:14px;width:98px;height:98px;animation:spin 22s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .badge .bstar{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;}
-  .sticker{position:absolute;z-index:3;font-size:34px;filter:drop-shadow(0 3px 5px rgba(67,20,16,.2));}
-  .st1{top:0;right:24px;transform:rotate(10deg);}
-  .st2{bottom:40px;right:0;transform:rotate(-8deg);}
+  .sticker{position:absolute;z-index:3;font-size:29px;filter:drop-shadow(0 3px 5px rgba(67,20,16,.2));pointer-events:none;}
+  .s1{top:2px;right:52px;transform:rotate(10deg);}
+  .s2{top:-4px;left:60px;transform:rotate(-9deg);}
+  .s3{top:43%;left:2px;transform:rotate(-6deg);}
+  .s4{bottom:20px;left:56px;transform:rotate(8deg);}
+  .s5{bottom:0;right:118px;transform:rotate(-7deg);}
+  .s6{bottom:28%;right:4px;transform:rotate(9deg);}
+  .s7{top:15%;right:20px;transform:rotate(-10deg);}
+  .s8{top:-6px;right:146px;transform:rotate(7deg);}
+  .s9{bottom:40%;left:14px;transform:rotate(-8deg);}
+  .s10{bottom:6px;left:120px;transform:rotate(6deg);}
   .arrow{position:absolute;z-index:2;left:-58px;top:42%;width:90px;color:var(--wine);transform:rotate(4deg);}
   .flower{position:absolute;left:38px;bottom:26px;width:78px;height:78px;z-index:2;}
   .flower .fc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;font-size:22px;color:var(--cream);}
@@ -221,9 +229,12 @@
     .scallop{width:264px;height:264px;}
     .photo{width:196px;height:196px;}
     .badge{width:80px;height:80px;bottom:2px;left:2px;}
-    .sticker{font-size:27px;}
-    .st1{right:4px;}
-    .st2{right:-2px;bottom:24px;}
+    .sticker{font-size:23px;}
+    .s1{right:14px;}
+    .s5{right:70px;}
+    .s8{right:96px;}
+    .s10{left:70px;}
+    .s3,.s9{display:none;}
     .flower{left:4px;bottom:6px;width:60px;height:60px;}
     .price-card .amount{font-size:46px;}
     h2.sec{font-size:26px;}
@@ -291,8 +302,16 @@
             <textPath href="#circlepath">ESTRATEGIA · MARCA · PROPÓSITO · </textPath>
           </text>
         </svg>
-        <span class="sticker st1">🤠</span>
-        <span class="sticker st2">📈</span>
+        <span class="sticker s1">🤠</span>
+        <span class="sticker s2">😻</span>
+        <span class="sticker s3">💛</span>
+        <span class="sticker s4">☕️</span>
+        <span class="sticker s5">🎧</span>
+        <span class="sticker s6">🍄</span>
+        <span class="sticker s7">🤩</span>
+        <span class="sticker s8">👀</span>
+        <span class="sticker s9">🍀</span>
+        <span class="sticker s10">💡</span>
         <!-- flower doodle -->
         <svg class="flower" viewBox="0 0 100 100">
           <g fill="var(--coral)">
