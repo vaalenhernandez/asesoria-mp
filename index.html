@@ -189,6 +189,10 @@
   .estado.libre{background:#dcefd8;color:#3f6b34;}
   .estado.pocos{background:var(--yellow);color:#6b5a10;}
   .estado.lleno{background:var(--cream-2);color:var(--muted);}
+  .cupos{display:flex;gap:6px;justify-content:center;margin-bottom:14px;}
+  .cupos .dot{width:12px;height:12px;border-radius:50%;background:#dcefd8;border:1.5px solid #bcd9b4;}
+  .cupos .dot.taken{background:var(--wine);border-color:var(--wine);}
+  .fomo{display:inline-block;background:var(--wine);color:var(--cream);font-family:'Fraunces',serif;font-style:italic;font-size:15px;padding:8px 20px;border-radius:30px;margin-top:16px;}
   .date-note{text-align:center;font-size:13.5px;color:var(--muted);font-style:italic;margin-top:22px;}
 
   /* ================= RESPONSIVE ================= */
@@ -361,30 +365,35 @@
          class="estado pocos"  → Últimos cupos (amarillo)
          class="estado lleno"  → Agotado (gris)
        Puedes agregar o quitar tarjetas <div class="date-card">...</div> -->
-  <div class="panel" id="fechas">
-    <span class="kicker">Próximas fechas 🗓️</span>
-    <h2 class="sec">Próximas <em>fechas de inicio</em></h2>
-    <p class="lead">Trabajo con pocos cupos al mes para dedicarle tiempo real a cada marca. Estas son las próximas fechas para empezar:</p>
+  <div class="panel" id="fechas" style="text-align:center;">
+    <span class="kicker">Cupos limitados 🗓️</span>
+    <h2 class="sec">Solo abro <em>5 cupos al mes</em></h2>
+    <p class="lead" style="margin:0 auto;">Trabajo con pocas personas cada mes para dedicarle tiempo real a tu marca. Cuando se llenan los cupos, se cierran hasta el mes siguiente.</p>
     <div class="date-grid">
+      <!-- Cada punto = 1 cupo. Pon la clase "taken" a los que ya se ocuparon.
+           Ajusta también .estado (libre / pocos / lleno) según queden cupos. -->
+      <div class="date-card">
+        <div class="mes">Agosto</div>
+        <div class="dia">Mes en curso</div>
+        <div class="cupos"><span class="dot taken"></span><span class="dot taken"></span><span class="dot taken"></span><span class="dot taken"></span><span class="dot taken"></span></div>
+        <span class="estado lleno">Agotado</span>
+      </div>
+      <div class="date-card">
+        <div class="mes">Septiembre</div>
+        <div class="dia">Cupos abiertos</div>
+        <div class="cupos"><span class="dot taken"></span><span class="dot taken"></span><span class="dot taken"></span><span class="dot"></span><span class="dot"></span></div>
+        <span class="estado pocos">Quedan 2 cupos</span>
+      </div>
       <div class="date-card">
         <div class="mes">Octubre</div>
-        <div class="dia">Inicio: 6 de octubre</div>
-        <span class="estado libre">Cupos disponibles</span>
-      </div>
-      <div class="date-card">
-        <div class="mes">Noviembre</div>
-        <div class="dia">Inicio: 3 de noviembre</div>
-        <span class="estado pocos">Últimos cupos</span>
-      </div>
-      <div class="date-card">
-        <div class="mes">Diciembre</div>
-        <div class="dia">Inicio: 1 de diciembre</div>
-        <span class="estado libre">Cupos disponibles</span>
+        <div class="dia">Cupos abiertos</div>
+        <div class="cupos"><span class="dot taken"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <span class="estado libre">Quedan 4 cupos</span>
       </div>
     </div>
-    <p class="date-note">¿Ninguna fecha te sirve? Escríbeme y cuadramos una a tu medida.</p>
-    <div style="text-align:center;margin-top:22px;">
-      <a class="btn wine" href="#pago">Reservar mi fecha <span class="arw">→</span></a>
+    <div class="fomo">Reserva ahora y aparta tu cupo antes de que se cierre.</div>
+    <div style="margin-top:22px;">
+      <a class="btn wine" href="#pago">Reservar mi cupo <span class="arw">→</span></a>
     </div>
   </div>
 
