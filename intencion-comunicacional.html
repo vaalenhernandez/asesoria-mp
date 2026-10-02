@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vender, reconocer y aportar valor — Valen Hernández</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+<style>
+
+/* ===== animaciones + girly + responsive ===== */
+.slide > *:not(.fl):not(.pg):not(.brand){position:relative;z-index:2;}
+.brand,.pg{z-index:4;}
+.fl{position:absolute;z-index:0;opacity:.55;pointer-events:none;font-size:clamp(26px,3.4vw,50px);
+  filter:drop-shadow(0 4px 7px rgba(0,0,0,.14));animation:floaty 6s ease-in-out infinite;will-change:transform;}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg));}50%{transform:translateY(-15px) rotate(calc(var(--r,0deg) + 5deg));}}
+@media(prefers-reduced-motion:no-preference){
+  .slide > *:not(.fl):not(.pg):not(.brand){opacity:0;transform:translateY(28px);
+    transition:opacity .7s ease, transform .8s cubic-bezier(.2,.75,.25,1);transition-delay:var(--d,0s);}
+  .slide.in > *:not(.fl):not(.pg):not(.brand){opacity:1;transform:none;}
+}
+@media(max-width:720px){
+  .slide{padding:9vh 7vw 8vh;}
+  .slide [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+  .orbit{width:min(440px,86vw);height:min(440px,86vw);}
+  .fl{font-size:24px;opacity:.5;}
+  .flow{gap:8px;} .flow .node{padding:10px 14px;}
+  .brand{top:20px;} .pg{bottom:18px;right:20px;}
+  .hint{font-size:10px;}
+}
+@media(max-width:420px){ .slide{padding:8vh 6vw 7vh;} .kw span{font-size:20px;} }
+@media print{
+  .slide > *{opacity:1!important;transform:none!important;}
+  .fl{opacity:.45!important;animation:none!important;}
+}
+
+</style>
+<style>
+:root{
+  --wine:#5d201a; --wine-deep:#3d0e10; --cream:#f4ecdb; --cream-2:#e9ddc9;
+  --paper:#faf4e8; --ink:#3a1d16; --muted:#8a6353; --coral:#bd5f38;
+  --rose:#cf8a86; --gold:#c9a24b; --line:#d9c9b3;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;color:var(--ink);background:var(--wine-deep);-webkit-font-smoothing:antialiased;}
+.serif{font-family:'Fraunces',serif;}
+em{font-style:italic;}
+
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;
+  padding:9vh 8vw;position:relative;background:var(--paper);overflow:hidden;gap:2px;}
+.slide.dark{background:linear-gradient(160deg,var(--wine),var(--wine-deep));color:var(--cream);}
+.slide.wine{background:var(--wine);color:var(--cream);}
+.slide.coral{background:var(--coral);color:#fff;}
+
+/* labels + headings */
+.lab{font-size:12px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--coral);margin-bottom:26px;}
+.slide.dark .lab,.slide.wine .lab{color:var(--rose);}
+.slide.coral .lab{color:#ffe9df;}
+.t{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(30px,5vw,62px);line-height:1.02;letter-spacing:-.02em;color:var(--wine);}
+.slide.dark .t,.slide.wine .t,.slide.coral .t{color:var(--cream);}
+.slide.coral .t{color:#fff;}
+.t em{font-style:italic;font-weight:500;color:var(--coral);}
+.slide.dark .t em,.slide.wine .t em{color:var(--rose);}
+.slide.coral .t em{color:#ffe4d8;}
+.sub{font-size:clamp(15px,1.8vw,19px);color:var(--muted);margin-top:20px;max-width:760px;line-height:1.6;}
+.slide.dark .sub,.slide.wine .sub{color:#e9cfc2;}
+.slide.coral .sub{color:#fff2ec;}
+.quote{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(19px,2.4vw,30px);line-height:1.35;color:var(--wine);max-width:900px;}
+.slide.dark .quote,.slide.wine .quote{color:var(--cream);}
+.hr{height:1px;background:var(--line);border:0;margin:28px 0;max-width:120px;}
+.slide.dark .hr,.slide.wine .hr{background:rgba(255,255,255,.25);}
+
+/* number badge */
+.pg{position:absolute;bottom:26px;right:34px;font-size:12px;letter-spacing:.15em;color:var(--muted);font-weight:600;}
+.slide.dark .pg,.slide.wine .pg,.slide.coral .pg{color:rgba(255,255,255,.6);}
+.brand{position:absolute;top:28px;left:8vw;font-family:'Fraunces',serif;font-size:15px;color:var(--wine);font-weight:700;}
+.brand em{color:var(--coral);font-weight:500;}
+.slide.dark .brand,.slide.wine .brand,.slide.coral .brand{color:rgba(255,255,255,.85);}
+
+/* flow row */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:40px;}
+.flow .node{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(13px,1.5vw,18px);padding:12px 18px;border:1.5px solid var(--line);border-radius:40px;color:var(--wine);background:#fff;}
+.slide.dark .flow .node{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);color:var(--cream);}
+.flow .ar{color:var(--coral);font-size:20px;font-family:'Fraunces';}
+
+/* two column contrast */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px;}
+.box{border-radius:20px;padding:30px 32px;}
+.box.a{background:#fff;border:1.5px solid var(--line);}
+.box.b{background:var(--wine);color:var(--cream);}
+.box .h{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:16px;color:var(--muted);}
+.box.b .h{color:var(--rose);}
+.box .big{font-family:'Fraunces',serif;font-size:clamp(18px,2vw,24px);line-height:1.3;color:var(--wine);}
+.box.b .big{color:var(--cream);}
+.box ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+.box li{font-size:15px;padding-left:20px;position:relative;color:#5a3a30;}
+.box.b li{color:#eBd7cd;}
+.box.a li:before{content:"›";position:absolute;left:0;color:var(--coral);font-weight:700;}
+.box.b li:before{content:"→";position:absolute;left:0;color:var(--rose);}
+
+/* checklist */
+.check{margin-top:36px;display:flex;flex-direction:column;gap:16px;max-width:820px;}
+.check .row{display:flex;align-items:center;gap:16px;font-size:clamp(15px,1.9vw,20px);font-family:'Fraunces';color:var(--cream);}
+.check .x{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(255,255,255,.1);color:var(--rose);border:1.5px solid rgba(255,255,255,.25);}
+
+/* four elements */
+.four{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:44px;}
+.el{text-align:center;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:24px 26px;min-width:150px;flex:1;}
+.slide.dark .el{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);}
+.el .emo{font-size:30px;}
+.el .nm{font-family:'Fraunces';font-weight:600;font-size:15px;margin-top:8px;color:var(--wine);}
+.slide.dark .el .nm{color:var(--cream);}
+.plus{font-family:'Fraunces';font-size:26px;color:var(--coral);}
+
+/* orbit / territory */
+.orbit{position:relative;width:min(560px,80vw);height:min(560px,80vw);margin:20px auto 0;}
+.orbit .core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34%;height:34%;border-radius:50%;background:var(--wine);color:var(--cream);display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:700;font-size:clamp(18px,2.6vw,30px);z-index:2;text-align:center;}
+.orbit .b{position:absolute;background:#fff;border:1.5px solid var(--line);border-radius:40px;padding:9px 16px;font-size:clamp(11px,1.4vw,15px);font-family:'Fraunces';font-weight:600;color:var(--wine);white-space:nowrap;}
+.slide.dark .orbit .b{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:var(--cream);}
+
+/* attributes */
+.attrs{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px;}
+.attr{font-family:'Fraunces';font-weight:600;font-size:clamp(15px,2vw,22px);color:var(--wine);border:1.5px solid var(--coral);border-radius:40px;padding:12px 22px;}
+.slide.dark .attr,.slide.wine .attr{color:var(--cream);border-color:var(--rose);}
+
+/* pillars grid */
+.pill{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:34px;}
+.pcard{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:24px 26px;}
+.slide.dark .pcard{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);}
+.pcard .pn{font-family:'Fraunces';font-weight:900;font-size:26px;color:var(--coral);}
+.pcard h3{font-family:'Fraunces';font-weight:600;font-size:19px;color:var(--wine);margin:2px 0 8px;}
+.slide.dark .pcard h3{color:var(--cream);}
+.pcard p{font-size:13.5px;color:var(--muted);line-height:1.5;}
+.slide.dark .pcard p{color:#e9cfc2;}
+.pcard .obj{font-size:12px;color:var(--coral);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:8px;}
+
+/* percentage bars */
+.bars{margin-top:40px;max-width:760px;}
+.bar{margin-bottom:20px;}
+.bar .top{display:flex;justify-content:space-between;font-family:'Fraunces';font-size:17px;color:var(--wine);margin-bottom:8px;}
+.slide.dark .bar .top{color:var(--cream);}
+.bar .track{height:14px;border-radius:10px;background:var(--cream-2);overflow:hidden;}
+.slide.dark .bar .track{background:rgba(255,255,255,.12);}
+.bar .fill{height:100%;border-radius:10px;background:var(--coral);}
+
+/* formula vertical */
+.formula{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.formula .f{font-family:'Fraunces';font-weight:600;font-size:clamp(16px,2.2vw,24px);color:var(--wine);background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 30px;text-align:center;}
+.slide.dark .formula .f{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:var(--cream);}
+.formula .dn{color:var(--coral);font-size:20px;}
+
+/* chips list */
+.kw{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px;}
+.kw span{font-family:'Fraunces';font-style:italic;font-size:clamp(18px,2.4vw,30px);color:var(--wine);}
+.slide.dark .kw span{color:var(--cream);}
+.kw span:not(:last-child):after{content:"·";margin-left:14px;color:var(--coral);font-style:normal;}
+
+/* idea bank grid */
+.bank{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;margin-top:20px;}
+.bcol h4{font-family:'Fraunces';font-size:15px;color:var(--coral);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.bcol ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.bcol li{font-size:12px;color:#4a342c;padding-left:14px;position:relative;line-height:1.4;}
+.slide.dark .bcol li{color:#e9cfc2;}
+.bcol li:before{content:"—";position:absolute;left:0;color:var(--coral);}
+
+/* expand 1->10 */
+.expand{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px;margin-top:24px;max-width:900px;}
+.expand .e{font-size:13.5px;color:#4a342c;padding-left:26px;position:relative;}
+.slide.dark .expand .e{color:#e9cfc2;}
+.expand .e b{color:var(--coral);position:absolute;left:0;font-family:'Fraunces';}
+
+/* profile structure */
+.stack{margin-top:30px;display:flex;flex-direction:column;gap:8px;max-width:420px;}
+.stack .s{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px 20px;font-family:'Fraunces';font-size:15px;color:var(--wine);text-align:center;}
+.slide.dark .stack .s{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:var(--cream);}
+.stack .dn{text-align:center;color:var(--coral);}
+
+/* timeline 3 */
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px;}
+.tri .c{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:24px;}
+.slide.dark .tri .c{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);}
+.tri .c h4{font-family:'Fraunces';font-size:17px;color:var(--coral);margin-bottom:12px;}
+.tri .c ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.tri .c li{font-size:13.5px;color:#5a3a30;padding-left:16px;position:relative;}
+.slide.dark .tri .c li{color:#e9cfc2;}
+.tri .c li:before{content:"›";position:absolute;left:0;color:var(--coral);}
+
+/* big questions */
+.qs{margin-top:40px;display:flex;flex-direction:column;gap:18px;}
+.qs .q{font-family:'Fraunces';font-weight:500;font-size:clamp(20px,3vw,38px);color:var(--cream);}
+.qs .q em{color:var(--rose);}
+
+.hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.5);background:rgba(0,0,0,.25);padding:6px 14px;border-radius:20px;z-index:50;font-family:'Montserrat';text-transform:uppercase;}
+
+@media(max-width:720px){
+  .slide{padding:8vh 7vw;}
+  .two,.pill,.bank,.expand,.tri{grid-template-columns:1fr;}
+  .orbit .b{font-size:11px;padding:7px 11px;}
+}
+@media print{
+  html{scroll-snap-type:none;}
+  .slide{min-height:0;height:100vh;page-break-after:always;}
+  .hint{display:none;}
+  @page{size:landscape;margin:0;}
+}
+
+/* ===== animaciones + girly + responsive ===== */
+.slide > *:not(.fl):not(.pg):not(.brand){position:relative;z-index:2;}
+.brand,.pg{z-index:4;}
+.fl{position:absolute;z-index:0;opacity:.55;pointer-events:none;font-size:clamp(26px,3.4vw,50px);
+  filter:drop-shadow(0 4px 7px rgba(0,0,0,.14));animation:floaty 6s ease-in-out infinite;will-change:transform;}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg));}50%{transform:translateY(-15px) rotate(calc(var(--r,0deg) + 5deg));}}
+@media(prefers-reduced-motion:no-preference){
+  .slide > *:not(.fl):not(.pg):not(.brand){opacity:0;transform:translateY(28px);
+    transition:opacity .7s ease, transform .8s cubic-bezier(.2,.75,.25,1);transition-delay:var(--d,0s);}
+  .slide.in > *:not(.fl):not(.pg):not(.brand){opacity:1;transform:none;}
+}
+@media(max-width:720px){
+  .slide{padding:9vh 7vw 8vh;}
+  .slide [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+  .orbit{width:min(440px,86vw);height:min(440px,86vw);}
+  .fl{font-size:24px;opacity:.5;}
+  .flow{gap:8px;} .flow .node{padding:10px 14px;}
+  .brand{top:20px;} .pg{bottom:18px;right:20px;}
+  .hint{font-size:10px;}
+}
+@media(max-width:420px){ .slide{padding:8vh 6vw 7vh;} .kw span{font-size:20px;} }
+@media print{
+  .slide > *{opacity:1!important;transform:none!important;}
+  .fl{opacity:.45!important;animation:none!important;}
+}
+
+.pill.p3{grid-template-columns:repeat(3,1fr);}
+@media(max-width:720px){.pill.p3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- 1 PORTADA -->
+<section class="slide dark" style="justify-content:flex-end;">
+  <div class="lab" style="color:var(--rose)">Asesoría 1:1 · Intención comunicacional</div>
+  <h1 class="t" style="font-size:clamp(38px,7vw,80px);">Vender, reconocer<br>y <em>aportar valor</em></h1>
+  <div class="sub" style="font-size:20px;color:#f0dede;">Cómo decidir para qué existe cada contenido</div>
+  <div class="hr" style="max-width:180px;"></div>
+  <div style="font-family:'Fraunces';font-size:18px;color:var(--cream);">Sesión presencial <span style="color:var(--rose)">×</span> Valen Hernández</div>
+  <div class="pg">01</div>
+</section>
+
+<!-- 2 LA RUTA -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">La ruta de hoy</div>
+  <h2 class="t">Qué vamos a <em>lograr</em> hoy</h2>
+  <div class="flow">
+    <span class="node">💡 La idea base</span><span class="ar">→</span>
+    <span class="node">🎯 Las 3 intenciones</span><span class="ar">→</span>
+    <span class="node">🗣️ El lenguaje</span><span class="ar">→</span>
+    <span class="node">🏷️ Tus marcas</span><span class="ar">→</span>
+    <span class="node">🧩 La mezcla</span><span class="ar">→</span>
+    <span class="node">✍️ Práctica</span>
+  </div>
+  <div class="hr"></div>
+  <p class="quote">Hoy vas a aprender a decidir <em>qué quieres lograr</em> con cada pieza 🎯 y a llevarlo a tus marcas, para que lo apliques con este y con todos tus clientes.</p>
+  <div class="pg">02</div>
+</section>
+
+<!-- 3 IDEA BASE -->
+<section class="slide dark" style="justify-content:center;">
+  <div class="lab">Bloque 1 · La idea base</div>
+  <h2 class="t" style="font-size:clamp(30px,5.5vw,66px);">Vender, posicionar y aportar valor<br><em>trabajan juntos.</em></h2>
+  <p class="sub" style="font-size:22px;max-width:820px;">Cada pieza tiene <span style="color:var(--rose)">una intención principal</span>. La estrategia está en cómo se combinan.</p>
+  <div class="flow" style="margin-top:44px;">
+    <span class="node">💛 Reconocimiento</span>
+    <span class="node">🧠 Valor</span>
+    <span class="node">🛒 Venta</span>
+    <span class="node" style="border-color:var(--rose);color:var(--rose);">= una marca que funciona ✨</span>
+  </div>
+  <div class="pg">03</div>
+</section>
+
+<!-- 4 PREGUNTA INICIAL -->
+<section class="slide wine">
+  <div class="lab">Bloque 1 · Para empezar</div>
+  <h2 class="t">Piensa en tu última<br>publicación… <em>¿para qué era?</em></h2>
+  <div class="check">
+    <div class="row"><span class="x">🤔</span> ¿Qué querías que hiciera la persona después de verla?</div>
+    <div class="row"><span class="x">⏱️</span> ¿Lo decidiste antes de crearla, o después?</div>
+    <div class="row"><span class="x">📊</span> ¿Cómo sabrías si funcionó?</div>
+  </div>
+  <p class="sub" style="margin-top:30px;">Desde esa respuesta arrancamos hoy 🚀</p>
+  <div class="pg">04</div>
+</section>
+
+<!-- 5 PIENSE SIENTA HAGA -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 1 · La pregunta clave</div>
+  <h2 class="t">¿Qué quiero que la persona<br><em>piense, sienta o haga?</em></h2>
+  <div class="four">
+    <div class="el"><div class="emo">🧠</div><div class="nm">Que piense: “saben de esto”</div><div class="sub" style="margin-top:8px;font-size:14px;">→ Valor</div></div>
+    <div class="el"><div class="emo">💛</div><div class="nm">Que sienta cercanía y la recuerde</div><div class="sub" style="margin-top:8px;font-size:14px;">→ Reconocimiento</div></div>
+    <div class="el"><div class="emo">👉</div><div class="nm">Que haga algo concreto</div><div class="sub" style="margin-top:8px;font-size:14px;">→ Venta</div></div>
+  </div>
+  <p class="sub" style="margin-top:34px;">✨ Esta pregunta va primero, antes de cualquier idea, guion o formato.</p>
+  <div class="pg">05</div>
+</section>
+
+<!-- 6 INTENCION ANTES QUE FORMATO -->
+<section class="slide dark">
+  <div class="lab">Bloque 1 · La regla</div>
+  <h2 class="t">Primero la intención.<br><em>Después el formato.</em></h2>
+  <div class="formula">
+    <div class="f">🎯 Intención · ¿para qué?</div><div class="dn">↓</div>
+    <div class="f">💬 Mensaje · ¿qué digo?</div><div class="dn">↓</div>
+    <div class="f">🎬 Formato · ¿reel, carrusel, historia?</div>
+  </div>
+  <p class="sub" style="text-align:center;margin:26px auto 0;">Cuando la intención está clara, el formato se elige solo 🎬</p>
+  <div class="pg">06</div>
+</section>
+
+<!-- 7 LAS 3 INTENCIONES -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 2 · Las 3 intenciones</div>
+  <h2 class="t">Cada intención responde<br>una <em>pregunta distinta</em></h2>
+  <div class="tri">
+    <div class="c"><h4>💛 Reconocimiento</h4><ul><li>“¿Quiénes son y por qué los recuerdo?”</li></ul></div>
+    <div class="c"><h4>🧠 Valor</h4><ul><li>“¿Qué gano yo con seguir esta cuenta?”</li></ul></div>
+    <div class="c"><h4>🛒 Venta</h4><ul><li>“¿Por qué comprar ahora y cómo lo hago?”</li></ul></div>
+  </div>
+  <p class="sub" style="margin-top:30px;">Son las tres preguntas que se hace cualquier persona antes de elegir una marca.</p>
+  <div class="pg">07</div>
+</section>
+
+<!-- 8 RECONOCIMIENTO -->
+<section class="slide wine">
+  <div class="lab">Bloque 2 · Intención 01</div>
+  <h2 class="t"><em>Reconocimiento:</em><br>que te recuerden 💛</h2>
+  <div class="two">
+    <div class="box a" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><div class="h" style="color:var(--rose)">Qué contenido</div><ul>
+      <li style="color:#eBd7cd">El equipo y las personas detrás</li>
+      <li style="color:#eBd7cd">La historia de la marca</li>
+      <li style="color:#eBd7cd">El día a día, detrás de cámaras</li>
+      <li style="color:#eBd7cd">Valores y forma de trabajar</li></ul></div>
+    <div class="box a" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><div class="h" style="color:var(--rose)">Cómo se ve</div><ul>
+      <li style="color:#eBd7cd"><b>Cierre:</b> suave o ninguno · “conócenos”</li>
+      <li style="color:#eBd7cd"><b>Se mide en:</b> alcance, seguidores nuevos, menciones</li>
+      <li style="color:#eBd7cd"><b>Error típico:</b> hablar de la marca sin que le importe a nadie</li></ul></div>
+  </div>
+  <div class="pg">08</div>
+</section>
+
+<!-- 9 VALOR -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 2 · Intención 02</div>
+  <h2 class="t"><em>Valor:</em> que confíen en ti 🧠</h2>
+  <div class="two">
+    <div class="box a"><div class="h">Qué contenido</div><ul>
+      <li>Tips y recomendaciones</li>
+      <li>Errores comunes</li>
+      <li>Guías y paso a paso</li>
+      <li>Respuestas a dudas frecuentes</li></ul></div>
+    <div class="box b"><div class="h">Cómo se ve</div><ul>
+      <li><b>Cierre:</b> “guárdalo”, “compártelo”, “cuéntame tu duda”</li>
+      <li><b>Se mide en:</b> guardados, compartidos, comentarios</li>
+      <li><b>Error típico:</b> dar información que no se conecta con lo que la marca vende</li></ul></div>
+  </div>
+  <div class="pg">09</div>
+</section>
+
+<!-- 10 VENTA -->
+<section class="slide dark">
+  <div class="lab">Bloque 2 · Intención 03</div>
+  <h2 class="t"><em>Venta:</em> que tomen acción 🛒</h2>
+  <div class="two">
+    <div class="box a" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);"><div class="h" style="color:var(--rose)">Qué contenido</div><ul>
+      <li style="color:#eBd7cd">Promociones y lanzamientos</li>
+      <li style="color:#eBd7cd">Beneficios del producto o servicio</li>
+      <li style="color:#eBd7cd">Testimonios y resultados</li>
+      <li style="color:#eBd7cd">Cómo comprar o agendar</li></ul></div>
+    <div class="box a" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);"><div class="h" style="color:var(--rose)">Cómo se ve</div><ul>
+      <li style="color:#eBd7cd"><b>Cierre:</b> claro y directo · “escríbenos”, “agenda”, “compra”</li>
+      <li style="color:#eBd7cd"><b>Se mide en:</b> mensajes, citas, ventas</li>
+      <li style="color:#eBd7cd"><b>Error típico:</b> vender en todas las publicaciones y cansar a la audiencia</li></ul></div>
+  </div>
+  <div class="pg">10</div>
+</section>
+
+<!-- 11 COMO SE CONECTAN -->
+<section class="slide coral" style="justify-content:center;">
+  <div class="lab">Bloque 2 · Cómo se conectan</div>
+  <h2 class="t" style="color:#fff;font-size:clamp(30px,5vw,60px);">Una lleva a la otra.<br><em>Así se construye la venta.</em></h2>
+  <div class="formula" style="align-items:flex-start;">
+    <div class="f" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#fff;">💛 Reconocimiento → te recuerdan</div><div class="dn" style="color:#fff;padding-left:30px;">↓</div>
+    <div class="f" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#fff;">🧠 Valor → confían en ti</div><div class="dn" style="color:#fff;padding-left:30px;">↓</div>
+    <div class="f" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#fff;">🛒 Venta → convierten esa confianza en acción</div>
+  </div>
+  <div class="pg">11</div>
+</section>
+
+<!-- 12 MISMO TEMA 3 FORMAS -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 3 · El lenguaje</div>
+  <h2 class="t">Un mismo tema,<br><em>tres formas</em> de decirlo</h2>
+  <p class="sub" style="margin-top:8px;">Ejemplo: <span style="color:var(--coral);font-family:'Fraunces';font-style:italic;">una panadería de barrio 🥐</span></p>
+  <div class="pill p3">
+    <div class="pcard"><span class="pn">01</span><h3>💛 Reconocimiento</h3><p>“Don Jorge llega a las 4 a. m. todos los días. Hace 20 años amasa el pan que desayuna el barrio.”</p></div>
+    <div class="pcard"><span class="pn">02</span><h3>🧠 Valor</h3><p>“3 señales de que un pan es realmente artesanal (y cómo reconocerlas en la tienda).”</p></div>
+    <div class="pcard"><span class="pn">03</span><h3>🛒 Venta</h3><p>“Pan de masa madre recién horneado a las 7 a. m. Resérvalo por WhatsApp y te lo apartamos.”</p></div>
+  </div>
+  <div class="pg">12</div>
+</section>
+
+<!-- 13 TRES PALANCAS -->
+<section class="slide wine">
+  <div class="lab">Bloque 3 · El lenguaje</div>
+  <h2 class="t">Las <em>3 palancas</em> que cambian</h2>
+  <div class="tri">
+    <div class="c" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><h4 style="color:var(--rose)">🗂️ De qué se habla</h4><ul>
+      <li style="color:#eBd7cd">Reconocimiento → de la marca y su gente</li>
+      <li style="color:#eBd7cd">Valor → del problema de la persona</li>
+      <li style="color:#eBd7cd">Venta → de la oferta</li></ul></div>
+    <div class="c" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><h4 style="color:var(--rose)">🎙️ Desde dónde</h4><ul>
+      <li style="color:#eBd7cd">Cercano y humano</li>
+      <li style="color:#eBd7cd">Experto y útil</li>
+      <li style="color:#eBd7cd">Claro y directo</li></ul></div>
+    <div class="c" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><h4 style="color:var(--rose)">👉 Cómo se cierra</h4><ul>
+      <li style="color:#eBd7cd">Sin pedir nada</li>
+      <li style="color:#eBd7cd">Invitando a guardar o preguntar</li>
+      <li style="color:#eBd7cd">Pidiendo una acción concreta</li></ul></div>
+  </div>
+  <div class="pg">13</div>
+</section>
+
+<!-- 14 FORMULA VENTA -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 3 · El lenguaje de venta</div>
+  <h2 class="t">La <em>fórmula</em> de una pieza de venta</h2>
+  <div class="formula">
+    <div class="f">🎁 Beneficio <span style="display:block;font-family:'Montserrat';font-weight:500;font-size:12px;color:var(--muted);margin-top:2px;">¿qué gano yo?</span></div><div class="dn">↓</div>
+    <div class="f">⭐ Prueba <span style="display:block;font-family:'Montserrat';font-weight:500;font-size:12px;color:var(--muted);margin-top:2px;">¿por qué creerte? · testimonio, resultado, experiencia</span></div><div class="dn">↓</div>
+    <div class="f">👉 Acción <span style="display:block;font-family:'Montserrat';font-weight:500;font-size:12px;color:var(--muted);margin-top:2px;">¿qué hago ahora? · un solo paso, fácil</span></div>
+  </div>
+  <p class="sub" style="text-align:center;margin:26px auto 0;">Vender es hacer que el siguiente paso sea claro y fácil ✨</p>
+  <div class="pg">14</div>
+</section>
+
+<!-- 15 METODO ATERRIZAR -->
+<section class="slide dark">
+  <div class="lab">Bloque 4 · Llevarlo a tus marcas</div>
+  <h2 class="t">Cómo aterrizarlo <em>en 3 pasos</em></h2>
+  <div class="check">
+    <div class="row"><span class="x">1</span> En una frase: qué vende la marca, a quién y por qué la eligen.</div>
+    <div class="row"><span class="x">2</span> Elige un solo tema: un servicio, una duda frecuente, una temporada.</div>
+    <div class="row"><span class="x">3</span> Escríbelo en las tres intenciones.</div>
+  </div>
+  <p class="sub" style="margin-top:30px;">Así ves el concepto funcionando en tus propias marcas 🙌</p>
+  <div class="pg">15</div>
+</section>
+
+<!-- 16 CDA -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 4 · Ejemplo 🚗</div>
+  <h2 class="t">Un CDA · <em>la revisión técnico-mecánica</em></h2>
+  <div class="tri">
+    <div class="c"><h4>💛 Reconocimiento</h4><ul><li>El equipo que revisa tu carro: quiénes son y cómo trabajan</li></ul></div>
+    <div class="c"><h4>🧠 Valor</h4><ul><li>Qué revisan y los motivos más comunes por los que un carro no pasa</li></ul></div>
+    <div class="c"><h4>🛒 Venta</h4><ul><li>Agenda tu revisión: horarios, requisitos y cómo separar tu cita</li></ul></div>
+  </div>
+  <div class="pg">16</div>
+</section>
+
+<!-- 17 MANTENIMIENTO -->
+<section class="slide wine">
+  <div class="lab">Bloque 4 · Ejemplo 🔧</div>
+  <h2 class="t">Mantenimiento preventivo · <em>precisión, elegancia y confianza</em></h2>
+  <div class="attrs" style="margin-top:22px;"><span class="attr">🔧 Tecnología italiana</span><span class="attr">🤝 Atención personalizada</span></div>
+  <div class="tri">
+    <div class="c" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><h4 style="color:var(--rose)">💛 Reconocimiento</h4><ul><li style="color:#eBd7cd">Tecnología italiana en el taller: así cuidamos cada detalle de tu carro</li></ul></div>
+    <div class="c" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><h4 style="color:var(--rose)">🧠 Valor</h4><ul><li style="color:#eBd7cd">Qué revisar y cada cuánto para que tu carro rinda siempre como nuevo</li></ul></div>
+    <div class="c" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);"><h4 style="color:var(--rose)">🛒 Venta</h4><ul><li style="color:#eBd7cd">Agenda tu mantenimiento preventivo con atención personalizada: escríbenos y separa tu cita</li></ul></div>
+  </div>
+  <div class="pg">17</div>
+</section>
+
+<!-- 18 CAMARAS -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 4 · Ejemplo 🎥</div>
+  <h2 class="t">Venta de cámaras · <em>y equipos de video</em></h2>
+  <div class="tri">
+    <div class="c"><h4>💛 Reconocimiento</h4><ul><li>Quién te asesora: el equipo que prueba cada cámara antes de recomendarla</li></ul></div>
+    <div class="c"><h4>🧠 Valor</h4><ul><li>Qué cámara elegir según lo que grabas: redes, eventos o producción profesional</li></ul></div>
+    <div class="c"><h4>🛒 Venta</h4><ul><li>Kit para creadores: cámara + micrófono + luz, con sus beneficios y cómo comprarlo</li></ul></div>
+  </div>
+  <div class="pg">18</div>
+</section>
+
+<!-- 19 MISMO SECTOR -->
+<section class="slide dark" style="justify-content:center;">
+  <div class="lab">Bloque 4 · Para notar 👀</div>
+  <h2 class="t" style="font-size:clamp(28px,4.8vw,58px);">Mismo tema,<br><em>ángulos distintos.</em></h2>
+  <div class="two">
+    <div class="box a" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);"><div class="big" style="color:var(--cream)">🚗 El CDA</div><ul><li style="color:#eBd7cd">Habla de cumplir: la revisión, los requisitos, la cita</li></ul></div>
+    <div class="box b" style="background:var(--coral);"><div class="big">🔧 El mantenimiento preventivo</div><ul><li style="color:#fff">Habla de cuidar: precisión, tecnología italiana y atención personalizada</li></ul></div>
+  </div>
+  <p class="sub" style="margin-top:30px;">Las dos hablan del carro. Cada una encuentra su ángulo en el problema que resuelve ✨</p>
+  <div class="pg">19</div>
+</section>
+
+<!-- 20 LA MEZCLA -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 5 · La mezcla</div>
+  <h2 class="t">No hay una proporción fija.<br><em>Depende del momento.</em></h2>
+  <div class="pill" style="margin-top:26px;">
+    <div class="pcard"><h3>Es nueva o casi nadie la conoce</h3><p>→ Más <b>reconocimiento</b>. Nadie compra a quien no conoce.</p></div>
+    <div class="pcard"><h3>Ya la conocen, pero no le escriben</h3><p>→ Más <b>valor</b>. Falta confianza o una razón para elegirla.</p></div>
+    <div class="pcard"><h3>Tiene audiencia, pero pocas ventas</h3><p>→ Más <b>venta</b>. La gente está lista y nadie le pide la acción.</p></div>
+    <div class="pcard"><h3>Tiene temporadas o fechas clave</h3><p>→ <b>Valor</b> antes de la temporada, <b>venta</b> durante ella.</p></div>
+  </div>
+  <div class="pg">20</div>
+</section>
+
+<!-- 21 PUNTO DE PARTIDA -->
+<section class="slide wine" style="justify-content:center;">
+  <div class="lab">Bloque 5 · Para empezar</div>
+  <h2 class="t">En una semana de 4–5 piezas,<br>al menos <em>una de cada una.</em></h2>
+  <div class="attrs">
+    <span class="attr">💛 Reconocimiento</span><span class="attr">🧠 Valor</span><span class="attr">🛒 Venta</span>
+  </div>
+  <p class="sub" style="margin-top:30px;">Es tu punto de partida 📅 Después ajustas según lo que responda la audiencia.</p>
+  <div class="hr"></div>
+  <p class="quote" style="font-size:clamp(17px,2.1vw,26px);">Mirando tus marcas: <em>¿cuál necesita más cada intención ahora?</em></p>
+  <div class="pg">21</div>
+</section>
+
+<!-- 22 EJERCICIO -->
+<section class="slide coral" style="justify-content:center;">
+  <div class="lab" style="color:#ffe9df">Bloque 6 · Tu turno</div>
+  <h2 class="t" style="color:#fff;">Ejercicio: <em>una marca, tres piezas</em> ✍️</h2>
+  <div class="check" style="max-width:900px;">
+    <div class="row" style="color:#fff"><span class="x" style="background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)">1</span> Elige una de tus marcas y un tema.</div>
+    <div class="row" style="color:#fff"><span class="x" style="background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)">2</span> Escribe tres ideas: una de reconocimiento, una de valor y una de venta.</div>
+    <div class="row" style="color:#fff"><span class="x" style="background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)">3</span> Para cada una: la primera frase y el cierre.</div>
+  </div>
+  <p class="sub" style="color:#fff2ec;margin-top:30px;">Lo revisamos juntas, enfocadas en la intención de cada pieza ✍️</p>
+  <div class="pg">22</div>
+</section>
+
+<!-- 23 SEÑALES -->
+<section class="slide">
+  <div class="brand">valen<em>hernández</em></div>
+  <div class="lab">Bloque 6 · Cómo saber si lo lograste</div>
+  <h2 class="t">Señales de que <em>quedó claro</em> ✅</h2>
+  <div class="tri">
+    <div class="c"><h4>🛒 Tu pieza de venta</h4><ul><li>Tiene una acción concreta y fácil de hacer</li></ul></div>
+    <div class="c"><h4>🧠 Tu pieza de valor</h4><ul><li>Sirve aunque la persona nunca compre</li></ul></div>
+    <div class="c"><h4>💛 Tu pieza de reconocimiento</h4><ul><li>Muestra algo que solo esa marca puede contar</li></ul></div>
+  </div>
+  <div class="pg">23</div>
+</section>
+
+<!-- 24 PREGUNTAS ANTES DE CREAR -->
+<section class="slide dark" style="justify-content:center;">
+  <div class="lab">Tu guía · Antes de crear cualquier pieza</div>
+  <h2 class="t" style="font-size:clamp(26px,3.5vw,44px);">Antes de crear, <em>pregúntate:</em> 📝</h2>
+  <div class="qs">
+    <div class="q">¿Qué quiero que <em>piense, sienta o haga?</em></div>
+    <div class="q">¿Es <em>reconocimiento, valor o venta?</em></div>
+    <div class="q">¿Hablo de la marca, del problema <em>o de la oferta?</em></div>
+    <div class="q">¿Cómo cierro, y <em>cómo sabré si funcionó?</em></div>
+  </div>
+  <div class="pg">24</div>
+</section>
+
+<!-- 25 PLANEAR LA SEMANA -->
+<section class="slide wine">
+  <div class="lab">Tu guía · Al planear la semana de una marca</div>
+  <h2 class="t">Tres preguntas para <em>cada cliente</em> 🗓️</h2>
+  <div class="check">
+    <div class="row"><span class="x">1</span> ¿En qué momento está: la conocen, confían en ella, le compran?</div>
+    <div class="row"><span class="x">2</span> ¿Qué intención necesita más ahora?</div>
+    <div class="row"><span class="x">3</span> ¿Hay al menos una pieza de cada intención?</div>
+  </div>
+  <p class="sub" style="margin-top:30px;">Sirve para estas tres marcas y para cualquier cliente que llegue después.</p>
+  <div class="pg">25</div>
+</section>
+
+<!-- 26 CIERRE -->
+<section class="slide coral" style="justify-content:center;text-align:center;align-items:center;">
+  <div class="lab" style="color:#ffe9df">El cierre</div>
+  <h2 class="t" style="color:#fff;font-size:clamp(30px,5vw,60px);max-width:1000px;">Cada pieza con un propósito ✨</h2>
+  <p class="sub" style="color:#fff2ec;font-size:22px;max-width:760px;margin-left:auto;margin-right:auto;">Cuando sabes para qué existe cada contenido, comunicas con claridad y tus marcas crecen.</p>
+  <div class="hr" style="margin-left:auto;margin-right:auto;background:rgba(255,255,255,.4)"></div>
+  <p class="quote" style="color:#fff;margin-left:auto;margin-right:auto;max-width:720px;">“Primero la intención. Después el contenido. <em style="color:#ffe4d8">Siempre en ese orden.</em>”</p>
+  <div class="pg">26</div>
+</section>
+
+
+<script>
+document.addEventListener('keydown',function(e){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var y=window.scrollY, cur=0, best=1e9;
+  slides.forEach(function(s,i){var d=Math.abs(s.offsetTop-y);if(d<best){best=d;cur=i;}});
+  if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' '){e.preventDefault();if(slides[cur+1])slides[cur+1].scrollIntoView();}
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();if(slides[cur-1])slides[cur-1].scrollIntoView();}
+});
+setTimeout(function(){var h=document.querySelector('.hint');if(h)h.style.opacity='0.35';},4000);
+</script>
+
+<script>
+(function(){
+  var girly=["😍","🍄","🍀","🐱","🫀","💡","💛","😊"];
+  var spots=[["7%","5%"],["13%","88%"],["78%","7%"],["82%","90%"],["45%","3%"],["52%","93%"],["24%","94%"],["70%","4%"]];
+  var slides=document.querySelectorAll(".slide");
+  slides.forEach(function(s,idx){
+    Array.prototype.slice.call(s.children).filter(function(c){
+      return !c.classList.contains("fl")&&!c.classList.contains("pg")&&!c.classList.contains("brand");
+    }).forEach(function(c,i){ c.style.setProperty("--d",(i*0.07)+"s"); });
+    var picks=[[girly[idx%8],spots[idx%spots.length],8],[girly[(idx+4)%8],spots[(idx+3)%spots.length],-9]];
+    picks.forEach(function(e,i){
+      var sp=document.createElement("span");sp.className="fl";sp.textContent=e[0];
+      sp.style.top=e[1][0];sp.style.left=e[1][1];sp.style.setProperty("--r",e[2]+"deg");
+      sp.style.animationDelay=(i*1.6)+"s";s.appendChild(sp);
+    });
+  });
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting) e.target.classList.add("in"); else e.target.classList.remove("in");
+  });},{threshold:0.32});
+  slides.forEach(function(s){io.observe(s);});
+  var _all=document.querySelectorAll(".slide");var _t=_all.length;
+  _all.forEach(function(s,i){var pg=s.querySelector(".pg");if(pg){var n=(i+1<10?"0":"")+(i+1);pg.textContent=n+" / "+_t;}});
+  if(slides[0]) slides[0].classList.add("in");
+})();
+</script>
+
+</body>
+</html>
